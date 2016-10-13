@@ -5,6 +5,4 @@ plugins {
 
 dependencies {
   compile gradleApi()
-
-  test 'junit:junit:4.12'
 }
