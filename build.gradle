@@ -1,0 +1,10 @@
+plugins {
+  id 'groovy'
+  id 'codenarc'
+}
+
+dependencies {
+  compile gradleApi()
+
+  test 'junit:junit:4.12'
+}
