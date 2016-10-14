@@ -14,6 +14,7 @@ dependencies {
     compile gradleApi()
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'commons-io:commons-io:2.5'
 }
 
 codenarc {
