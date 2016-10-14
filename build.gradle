@@ -2,6 +2,7 @@ plugins {
     id 'groovy'
     id 'codenarc'
     id 'java-gradle-plugin'
+    id 'jacoco'
 }
 
 repositories {
@@ -19,4 +20,11 @@ codenarc {
     configFile = file("${projectDir}/config/codenarc/ruleset.groovy")
     toolVersion = '0.25'
     sourceSets = [sourceSets.main]
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
