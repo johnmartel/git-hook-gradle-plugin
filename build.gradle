@@ -1,6 +1,7 @@
 plugins {
     id 'groovy'
     id 'codenarc'
+    id 'java-gradle-plugin'
 }
 
 repositories {
@@ -9,6 +10,13 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    compile gradleApi()
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
+
+codenarc {
+    configFile = file("${projectDir}/config/codenarc/ruleset.groovy")
+    toolVersion = '0.25'
+    sourceSets = [sourceSets.main]
 }
