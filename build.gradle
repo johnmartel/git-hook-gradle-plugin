@@ -1,9 +1,22 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
+    }
+}
+
 plugins {
     id 'groovy'
     id 'codenarc'
     id 'java-gradle-plugin'
     id 'jacoco'
 }
+
+apply plugin: 'com.gradle.plugin-publish'
 
 group = 'ca.coglinc'
 version = '1.0.0'
