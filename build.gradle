@@ -5,6 +5,9 @@ plugins {
     id 'jacoco'
 }
 
+group = 'ca.coglinc'
+version = '1.0.0'
+
 repositories {
     jcenter()
 }
