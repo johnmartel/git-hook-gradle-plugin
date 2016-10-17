@@ -45,3 +45,17 @@ jacocoTestReport {
         html.enabled = true
     }
 }
+
+pluginBundle {
+    website = 'https://github.com/johnmartel/git-hook-gradle-plugin'
+    vcsUrl = 'https://github.com/johnmartel/git-hook-gradle-plugin'
+    description = 'A gradle plugin to share git hooks in a project'
+    tags = ['git', 'githooks']
+
+    plugins {
+        gitHookPlugin {
+            id = 'ca.coglinc.githook'
+            displayName = 'Git Hook plugin'
+        }
+    }
+}
