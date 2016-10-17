@@ -70,6 +70,7 @@ class ThePluginCanBeAppliedToAProject extends Specification {
                 .build();
 
         then:
+        buildResult.task(':copyGitHooks').outcome == TaskOutcome.SUCCESS
         FilenameFilter filter = new NameFileFilter(COMMIT_MSG_FILE_NAME)
         String[] files = targetGitHooksFolder.list(filter)
         files?.length == 1
@@ -99,6 +100,7 @@ class ThePluginCanBeAppliedToAProject extends Specification {
                 .build();
 
         then:
+        buildResult.task(':copyGitHooks').outcome == TaskOutcome.SUCCESS
         FilenameFilter filter = new NameFileFilter(COMMIT_MSG_FILE_NAME)
         String[] files = targetGitHooksFolder.list(filter)
         files?.length == 1
