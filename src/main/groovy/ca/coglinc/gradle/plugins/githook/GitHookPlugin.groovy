@@ -15,6 +15,8 @@ class GitHookPlugin implements Plugin<Project> {
         project.configure(project) {
             tasks.create(name: 'copyGitHooks', type: Copy) {
                 outputs.upToDateWhen { false }
+                group = 'Git Hooks'
+                description = 'Copies provided Git hooks from config/githooks into git hooks folder'
 
                 String source = 'config/githooks'
                 String destination = '.git/hooks'
