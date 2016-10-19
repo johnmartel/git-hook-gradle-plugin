@@ -21,6 +21,7 @@ class GitHookPlugin implements Plugin<Project> {
 
                 from source
                 into destination
+                fileMode 0755
 
                 doFirst {
                     logger.info("Copying git hooks from ${source} to ${destination}")
