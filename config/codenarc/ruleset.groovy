@@ -179,7 +179,9 @@ ruleset {
   SpaceAfterSwitch
   SpaceAfterWhile
   SpaceAroundClosureArrow
-  SpaceAroundMapEntryColon
+  SpaceAroundMapEntryColon {
+    characterAfterColonRegex = /\s/
+  }
   SpaceAroundOperator
   SpaceBeforeClosingBrace
   SpaceBeforeOpeningBrace

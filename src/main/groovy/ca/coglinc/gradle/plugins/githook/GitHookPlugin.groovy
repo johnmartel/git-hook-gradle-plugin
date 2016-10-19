@@ -13,7 +13,7 @@ class GitHookPlugin implements Plugin<Project> {
 
     private void addCopyGitHooksTaskToProject(Project project) {
         project.configure(project) {
-            tasks.create( name:'copyGitHooks', type:Copy ) {
+            tasks.create(name: 'copyGitHooks', type: Copy) {
                 outputs.upToDateWhen { false }
 
                 String source = 'config/githooks'
