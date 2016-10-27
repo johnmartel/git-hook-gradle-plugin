@@ -2,6 +2,7 @@ package ca.coglinc.gradle.plugins.githook
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.tasks.Copy
 
 class GitHookPlugin implements Plugin<Project> {
@@ -18,6 +19,8 @@ class GitHookPlugin implements Plugin<Project> {
                 group = 'Git Hooks'
                 description = 'Copies provided Git hooks from config/githooks into git hooks folder'
 
+              processResourcesDependsOnCopyGitHooks(project)
+
                 String source = 'config/githooks'
                 String destination = '.git/hooks'
 
@@ -31,4 +34,11 @@ class GitHookPlugin implements Plugin<Project> {
             }
         }
     }
+
+  private void processResourcesDependsOnCopyGitHooks(Project project) {
+    Task processResourcesTask = project.tasks.findByName('processResources')
+    if (processResourcesTask) {
+      processResourcesTask.dependsOn project.tasks.copyGitHooks
+    }
+  }
 }

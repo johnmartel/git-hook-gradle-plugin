@@ -24,17 +24,6 @@ class ThePluginCanBeAppliedToAProject extends Specification {
     TemporaryFolder projectDir = new TemporaryFolder()
 
     def setup() {
-        defaultBuildFile = projectDir.newFile('build.gradle')
-        defaultBuildFile << """
-            plugins {
-                id 'ca.coglinc.githook'
-            }
-
-            repositories {
-                jcenter()
-            }
-        """
-
         targetGitHooksFolder = projectDir.newFolder(GIT_FOLDER_NAME, HOOKS_FOLDER_NAME)
         sourceGitHooksFolder = projectDir.newFolder(CONFIG_FOLDER_NAME, GITHOOKS_FOLDER_NAME)
     }
@@ -42,6 +31,8 @@ class ThePluginCanBeAppliedToAProject extends Specification {
     def """given the git-hook-gradle-plugin is applied to a project
         when I build the project
         then build do not fail"""() {
+        given:
+        givenABasicBuildFile()
 
         when:
         BuildResult buildResult = GradleRunner.create()
@@ -59,6 +50,7 @@ class ThePluginCanBeAppliedToAProject extends Specification {
         the provided hooks are copied to ./git/hooks folder"""() {
 
         given:
+        givenABasicBuildFile()
         givenAGitHookFileIsProvidedByTheProjectSource()
 
         when:
@@ -85,6 +77,7 @@ class ThePluginCanBeAppliedToAProject extends Specification {
         the provided hooks override correctly ./git/hooks folder"""() {
 
         given:
+        givenABasicBuildFile()
         givenAGitHookFileAlreadyExistsInProject()
         givenAGitHookFileIsProvidedByTheProjectSource()
 
@@ -103,6 +96,28 @@ class ThePluginCanBeAppliedToAProject extends Specification {
         new File(targetGitHooksFolder, files[0]).text == "test2"
     }
 
+    def """given the git-hook-gradle-plugin is applied to a java project
+        when I run the processResources task
+        the provided hooks are copied to ./git/hooks folder"""() {
+
+        given:
+        givenAJavaBuildFile()
+        givenAGitHookFileIsProvidedByTheProjectSource()
+
+        when:
+        BuildResult buildResult = GradleRunner.create()
+            .withProjectDir(projectDir.getRoot())
+            .withArguments('processResources')
+            .withPluginClasspath()
+            .build();
+
+        then:
+        String[] files = listFilesFromTargetGitHooksFolder()
+        files?.length == 1
+        new File(targetGitHooksFolder, files[0]).canExecute()
+    }
+
+
     private void givenAGitHookFileAlreadyExistsInProject() {
         File originCommitMsgHook = new File(targetGitHooksFolder, COMMIT_MSG_FILE_NAME)
         originCommitMsgHook.createNewFile()
@@ -113,5 +128,32 @@ class ThePluginCanBeAppliedToAProject extends Specification {
         File newCommitMsgHook = new File(sourceGitHooksFolder, COMMIT_MSG_FILE_NAME)
         newCommitMsgHook.createNewFile()
         newCommitMsgHook.text = "test2"
+    }
+
+    private void givenABasicBuildFile() {
+        defaultBuildFile = projectDir.newFile('build.gradle')
+        defaultBuildFile << """
+            plugins {
+                id 'ca.coglinc.githook'
+            }
+
+            repositories {
+                jcenter()
+            }
+        """
+    }
+
+    private void givenAJavaBuildFile() {
+        defaultBuildFile = projectDir.newFile('build.gradle')
+        defaultBuildFile << """
+            plugins {
+                id 'java'
+                id 'ca.coglinc.githook'
+            }
+
+            repositories {
+                jcenter()
+            }
+        """
     }
 }
